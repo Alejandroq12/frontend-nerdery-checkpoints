@@ -1,8 +1,8 @@
-# RAVN Trainee Program — Deliverables (Weeks 1–3)
+# RAVN Nerdery — Deliverables (Weeks 1–3)
 
 Hands-on deliverables that go with the workshop track. Each one is a small, focused
 task with **pre-written acceptance tests** and a **mentor checklist**, so both the
-trainee and the reviewer know exactly when it's done.
+nerd and the reviewer know exactly when it's done.
 
 > Week 4 (capstone) is not included here — you already have your own challenge for it.
 
@@ -28,13 +28,13 @@ npm run dev      # open the dev server; pick any deliverable from the home page
 | 3 | Global + Async State | `deliverables/week-3/state-management` | Module 7: State Management |
 
 Each folder has its own `README.md` (requirements + success criteria) and `CHECKLIST.md`
-(the manual review items). The trainee edits the files under `src/` until the tests pass.
+(the manual review items). The nerd edits the files under `src/` until the tests pass.
 
 ## How grading works
 
 Every deliverable is graded on **two** things:
 
-1. **Automated acceptance tests** — behaviour the trainee's code must satisfy. These
+1. **Automated acceptance tests** — behaviour the nerd's code must satisfy. These
    ship **failing** (the `src/` files are stubs). "Done" = green.
 2. **Manual checklist** (`CHECKLIST.md`) — the things a machine can't judge well:
    accessibility, composition, naming, no console warnings, code quality.
@@ -47,7 +47,7 @@ npm test               # all acceptance tests
 npm run test:week1     # just week 1  (also :week2, :week3)
 npm run typecheck      # strict TS across the repo (no `any`, no @ts-ignore)
 npm run lint           # ESLint (bans `any` and ts-ignore)
-npm run grade:testing  # week-2 Testing: runs the trainee's tests with the 85% coverage gate
+npm run grade:testing  # week-2 Testing: runs the nerd's tests with the 85% coverage gate
 ```
 
 Grade a single deliverable:
@@ -64,7 +64,7 @@ npx vitest run deliverables/week-1/contact-list
 
 See [`MENTOR.md`](./MENTOR.md) for the review rubric and scoring guidance.
 
-## Notes for trainees
+## Notes for nerds
 
 - Only edit files inside a deliverable's `src/` folder (and, for the Testing
   deliverable, its test file). Don't edit the `*.test.tsx` files elsewhere — those

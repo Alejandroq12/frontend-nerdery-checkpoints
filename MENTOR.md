@@ -1,7 +1,7 @@
-# Mentor Guide — Reviewing Trainee Deliverables
+# Mentor Guide — Reviewing Nerd Deliverables
 
 This repo is built so you can grade quickly and consistently. Each deliverable ships
-with failing acceptance tests; the trainee's job is to make them pass while following
+with failing acceptance tests; the nerd's job is to make them pass while following
 the manual checklist.
 
 ## Fast path to a grade
@@ -12,7 +12,7 @@ npm run grade          # typecheck + lint + all acceptance tests
 npm run grade:testing  # week-2 Testing coverage gate (separate)
 ```
 
-- **All green + `grade:testing` passes** → the trainee met the objective bar. Now do
+- **All green + `grade:testing` passes** → the nerd met the objective bar. Now do
   the manual review below.
 - **Red** → open the failing deliverable, run it in isolation
   (`npx vitest run deliverables/<week>/<name>`), and read that folder's `README.md`
@@ -51,7 +51,7 @@ Green tests prove behaviour, not understanding. Spot-check:
 - Tests import specific exports with specific behaviour; hard-coding return values to
   satisfy one assertion usually breaks another.
 - `npm run typecheck` + `npm run lint` block `any`, `@ts-ignore`, and unused code.
-- For the Testing deliverable, the 85% **coverage gate** means the trainee can't pass by
+- For the Testing deliverable, the 85% **coverage gate** means the nerd can't pass by
   writing one trivial test.
 - If you want a stronger gate, keep a private copy of the deliverable `README`s and ask
-  the trainee to explain one design choice verbally.
+  the nerd to explain one design choice verbally.

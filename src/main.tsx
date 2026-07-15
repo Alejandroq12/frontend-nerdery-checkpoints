@@ -21,7 +21,7 @@ const modules = import.meta.glob('../deliverables/*/*/src/index.tsx')
 function Home() {
   return (
     <main style={{ fontFamily: 'system-ui', maxWidth: 720, margin: '2rem auto', padding: '0 1rem' }}>
-      <h1>RAVN Trainee Program</h1>
+      <h1>RAVN Nerdery</h1>
       <p>Pick a deliverable to run its demo. Grade with <code>npm run grade</code>.</p>
       <ul>
         {deliverables.map((d) => (
