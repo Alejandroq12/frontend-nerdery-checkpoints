@@ -1,0 +1,81 @@
+name: Checkpoints
+
+# Runs on every PR against main. A nerd opens one PR per deliverable; this workflow
+# runs the repo-wide gates (typecheck, lint) plus the acceptance tests for ONLY the
+# deliverable(s) that the PR changed — so a PR goes green when THAT checkpoint is done,
+# not blocked by the other still-stubbed deliverables.
+
+on:
+  pull_request:
+    branches: [main]
+
+# Cancel superseded runs on the same PR.
+concurrency:
+  group: checkpoints-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck (whole repo, strict — no `any`, no @ts-ignore)
+        run: npm run typecheck
+
+      - name: Lint (whole repo)
+        run: npm run lint
+
+      - name: Guard — spec test files must not be edited
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          CHANGED="$(git diff --name-only "$BASE_SHA" HEAD)"
+          echo "Changed files in this PR:"; echo "$CHANGED"
+          # The *.test.tsx files ARE the spec. The only test file a nerd may write is
+          # the Testing deliverable's own suite.
+          BAD="$(echo "$CHANGED" | grep -E '\.test\.tsx$' | grep -v '^deliverables/week-2/testing/' || true)"
+          if [ -n "$BAD" ]; then
+            echo "::error::You modified acceptance test files (the spec). Revert these and solve the deliverable instead:"
+            echo "$BAD"
+            exit 1
+          fi
+
+      - name: Run acceptance tests for changed deliverables
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          DIRS="$(git diff --name-only "$BASE_SHA" HEAD \
+            | grep -E '^deliverables/week-[0-9]+/[^/]+/' \
+            | sed -E 's#(^deliverables/week-[0-9]+/[^/]+)/.*#\1#' \
+            | sort -u)"
+
+          if [ -z "$DIRS" ]; then
+            echo "No deliverable folders changed in this PR — typecheck and lint only."
+            exit 0
+          fi
+
+          echo "Deliverables changed in this PR:"; echo "$DIRS"
+          STATUS=0
+          for d in $DIRS; do
+            if [ "$d" = "deliverables/week-2/testing" ]; then
+              echo "::group::Coverage gate — $d"
+              npx vitest run --coverage "$d" || STATUS=1
+              echo "::endgroup::"
+            else
+              echo "::group::Acceptance tests — $d"
+              npx vitest run "$d" || STATUS=1
+              echo "::endgroup::"
+            fi
+          done
+          exit $STATUS
