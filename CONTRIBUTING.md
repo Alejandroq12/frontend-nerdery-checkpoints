@@ -49,11 +49,20 @@ open PRs from the fork back to `ravnhq/frontend-nerdery-checkpoints`.
    git push -u origin week-1/contact-list
    ```
    Then on GitHub, open a pull request **from your fork's branch → `ravnhq/frontend-nerdery-checkpoints`'s `main`** (GitHub shows a "Compare & pull request" prompt). Request review from your mentor.
-6. When CI is green and the mentor has ticked the deliverable's `CHECKLIST.md`, the PR
-   is **merged into `main`**. Sync your fork (`git pull upstream main`) and move on to the
-   next deliverable.
+6. Your mentor reviews the PR: CI must be green and they tick the deliverable's
+   `CHECKLIST.md`. When it's signed off, the mentor **closes the PR** — checkpoint PRs are
+   **reviewed, not merged** (see below). Start your next deliverable from a fresh branch
+   off `main`.
 
 > Keep each PR to **one deliverable**. It keeps reviews focused and CI fast.
+
+## Why PRs are closed, not merged
+
+`main` is the shared **stub baseline** everyone forks from, and each deliverable is an
+independent folder — so your work never needs to be merged in. Your PR exists purely so
+CI can run and your mentor can review and grade it. Once it's signed off, the mentor
+closes it; your solution stays on the branch in your fork as your record. Nothing you
+submit changes `main`.
 
 ## What CI checks
 
