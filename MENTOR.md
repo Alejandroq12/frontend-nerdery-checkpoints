@@ -4,6 +4,36 @@ This repo is built so you can grade quickly and consistently. Each deliverable s
 with failing acceptance tests; the nerd's job is to make them pass while following
 the manual checklist.
 
+## ⚠️ Never merge nerd PRs into `main`
+
+`main` is the canonical **stub baseline**. Every nerd forks from it, and each deliverable
+is an independent folder, so nothing ever needs to be merged forward. If you merged a PR
+you would overwrite the stubs with one nerd's solution and hand every later nerd a
+polluted, answer-leaking baseline.
+
+**Checkpoint PRs are a review surface, not an integration path. Review them, then close
+them — do not merge.** Nerds aren't collaborators, so only maintainers *can* merge; the
+safeguard is discipline (and, optionally, a branch-protection rule on `main`).
+
+## Reviewing a checkpoint PR
+
+1. Confirm the **Checkpoints** CI check is green. On a nerd's *first* fork PR, click
+   **"Approve and run"** so CI executes.
+2. Check the diff only touches that one deliverable's `src/` (CI already blocks edits to
+   the spec `*.test.tsx`, except the Testing deliverable's own suite).
+3. Open that deliverable's `CHECKLIST.md` and walk each item, leaving inline comments.
+4. Use GitHub's PR **Review**: *Request changes* (nerd pushes fixes → CI re-runs) or
+   *Approve* once tests are green **and** the checklist is satisfied.
+5. Record the grade, then **Close the PR without merging** (optionally label it
+   `passed` / `needs-work`). The solution stays on the branch in the nerd's fork.
+
+> **Public-repo caveat:** on a public repo every nerd can read everyone's PRs (and thus
+> their solutions). If that matters, make the repo **private** and add nerds as
+> collaborators (they then branch on the repo instead of forking).
+
+You can also review locally instead of reading the diff on GitHub — check out the PR
+branch and use the fast path below.
+
 ## Fast path to a grade
 
 ```bash
