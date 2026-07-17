@@ -15,9 +15,11 @@ export function DebouncedSearch() {
 
   return (
     <div>
-      <label htmlFor={id}>Search:</label>
-      <input ref={inputRef} id={id} name="search" type="text" value={query} onChange={(e) => setQuery(e.target.value)}/>
-      <p>Searching: {debounced}</p>
+      <div className="field">
+        <label htmlFor={id}>Search:</label>
+        <input ref={inputRef} id={id} name="search" type="text" value={query} onChange={(e) => setQuery(e.target.value)}/>
+      </div>
+      <p className="search-status">Searching: {debounced}</p>
     </div>
   )
 }
