@@ -31,24 +31,24 @@ export function ContactForm({ onAdd }: { onAdd: (contact: NewContact) => void })
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form className="contact-form" onSubmit={handleSubmit} noValidate>
       {isError && (
-        <div role="alert" style={{ color: 'red' }}>
+        <div className="form-error" role="alert">
           Error: Please enter a valid name and email.
         </div>
       )}
 
-      <div>
+      <div className="field">
         <label htmlFor={nameId}>Name</label>
         <input id={nameId} name="name" type="text" />
       </div>
 
-      <div>
+      <div className="field">
         <label htmlFor={emailId}>Email</label>
         <input id={emailId} name="email" type="email" />
       </div>
 
-      <div>
+      <div className="field">
         <label htmlFor={roleId}>Role</label>
         <input id={roleId} name="role" type="text" />
       </div>

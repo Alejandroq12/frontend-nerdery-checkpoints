@@ -23,7 +23,7 @@ export function SearchableContacts() {
 
   return (
     <div>
-      <div>
+      <div className="field">
         <label htmlFor={searchId}>Search contacts</label>
         <input
           id={searchId}

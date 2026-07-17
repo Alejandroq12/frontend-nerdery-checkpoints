@@ -2,10 +2,10 @@ import type { Contact } from './types'
 
 export function ContactCard({ contact }: { contact: Contact }) {
   return (
-    <div>
-      <p>{contact.name}</p> 
-      <p>{contact.email}</p> 
-      <p>{contact.role}</p>
+    <div className="contact-card">
+      <p className="contact-name">{contact.name}</p>
+      <p className="contact-email">{contact.email}</p>
+      <p className="contact-role">{contact.role}</p>
     </div>
   )
 }

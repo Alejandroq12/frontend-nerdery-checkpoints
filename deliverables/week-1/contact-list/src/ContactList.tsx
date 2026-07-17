@@ -3,15 +3,13 @@ import type { Contact } from './types'
 
 export function ContactList({ contacts }: { contacts: Contact[] }) {
   if (contacts.length === 0) {
-    return <p>No contacts found</p>;
+    return <p className="empty-state">No contacts found</p>;
   }
 
   return (
-    <div>
+    <div className="contact-list">
       {contacts.map(contact => (
-        <div key={contact.id}>
-          <ContactCard contact={contact} />
-        </div>
+        <ContactCard key={contact.id} contact={contact} />
       ))}
     </div>
   );
