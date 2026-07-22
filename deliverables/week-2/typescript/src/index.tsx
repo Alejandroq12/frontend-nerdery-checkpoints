@@ -1,6 +1,7 @@
 import type { FormState } from './formState'
 import { StatusBanner } from './StatusBanner'
 import { useLocalStorageState } from './useLocalStorageState'
+import './styles.css'
 
 const STATES: FormState[] = [
   { status: 'idle' },
@@ -13,11 +14,16 @@ export default function Demo() {
   const [state, setState] = useLocalStorageState<FormState>("status:", STATES[0])
 
   return (
-    <main style={{ fontFamily: 'system-ui', maxWidth: 640, margin: '1rem auto', padding: '0 1rem' }}>
-      <h1>Form status</h1>
-      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+    <main className="form-status">
+      <h1 className="form-status__title">Form status</h1>
+      <div className="form-status__buttons">
         {STATES.map((next) => (
-          <button key={next.status} onClick={() => setState(next)}>
+          <button
+            className="form-status__button"
+            key={next.status}
+            aria-pressed={next.status === state.status}
+            onClick={() => setState(next)}
+          >
             {next.status}
           </button>
         ))}
