@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import type { FormState } from './formState'
 import { StatusBanner } from './StatusBanner'
+import { useLocalStorageState } from './useLocalStorageState'
 
-// Runnable demo shown in the dev server: cycle through every FormState variant
-// and see how StatusBanner reacts.
 const STATES: FormState[] = [
   { status: 'idle' },
   { status: 'submitting' },
@@ -12,7 +10,7 @@ const STATES: FormState[] = [
 ]
 
 export default function Demo() {
-  const [state, setState] = useState<FormState>(STATES[0])
+  const [state, setState] = useLocalStorageState<FormState>("status:", STATES[0])
 
   return (
     <main style={{ fontFamily: 'system-ui', maxWidth: 640, margin: '1rem auto', padding: '0 1rem' }}>
