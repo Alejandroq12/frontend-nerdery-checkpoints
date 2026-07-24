@@ -20,49 +20,49 @@ export const initialCart: CartState = { items: [] }
 export function cartReducer(state: CartState, action: CartAction): CartState {
   const { items } = state;
 
-  switch(action.type) {
-    case "add":
+  switch (action.type) {
+    case 'add':
       {
         const existingItem = items.find(item => item.id === action.item.id);
         if (existingItem) {
-           const updatedItems =  items.map(item => {
+          const updatedItems = items.map(item => {
             if (item.id === existingItem.id) {
-              return {...item, qty: item.qty + 1}
+              return { ...item, qty: item.qty + 1 };
             }
             return item;
-           })
-           return {items: updatedItems};
+          });
+          return { items: updatedItems };
         } else {
-          return {items: [...items, {...action.item, qty: 1}]}
+          return { items: [...items, { ...action.item, qty: 1 }] };
         }
       }
-    case "clear":
-      return {items: []}
-    case "remove":
+    case 'clear':
+      return { items: [] };
+    case 'remove':
       {
         const filteredItems = items.filter(item => item.id !== action.id);
-        return {items: filteredItems};
+        return { items: filteredItems };
       }
-    case "setQty":
+    case 'setQty':
       {
         if (action.qty <= 0) {
           const filteredItems = items.filter(item => item.id !== action.id);
-          return {items: filteredItems}
+          return { items: filteredItems };
         } else {
           const updatedItems = items.map(item => {
             if (item.id === action.id) {
-              return {...item, qty: action.qty}
-            };
+              return { ...item, qty: action.qty };
+            }
             return item;
           });
-          return {items: updatedItems };
+          return { items: updatedItems };
         }
       }
-    default: 
+    default:
       return state;
   }
 }
 
 export function selectTotal(state: CartState): number {
-  return state.items.reduce((previousValue, currentValue) => previousValue + (currentValue.price * currentValue.qty) ,0)
+  return state.items.reduce((previousValue, currentValue) => previousValue + (currentValue.price * currentValue.qty), 0);
 }

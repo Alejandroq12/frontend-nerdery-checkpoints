@@ -1,13 +1,13 @@
 import { useRef } from 'react';
-import { useCart } from './CartContext'
+import { useCart } from './CartContext';
 
 const SAMPLE_PRODUCTS = [
   { id: 'coffee', name: 'Coffee', price: 10 },
   { id: 'bagel', name: 'Bagel', price: 5 },
-] as const
+] as const;
 
 export function Cart() {
-  const { state, total, add, remove, setQty, clear } = useCart()
+  const { state, total, add, remove, setQty, clear } = useCart();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const focusAddButton = () => buttonRef.current?.focus();
 
@@ -17,7 +17,13 @@ export function Cart() {
 
       <div className="cart__products">
         {SAMPLE_PRODUCTS.map((product, index) => (
-          <button className="cart__button" ref={index === 0 ? buttonRef : undefined} key={product.id} type="button" onClick={() => add(product)}>
+          <button
+            className="cart__button"
+            ref={index === 0 ? buttonRef : undefined}
+            key={product.id}
+            type="button"
+            onClick={() => add(product)}
+          >
             Add {product.name} (${product.price})
           </button>
         ))}
@@ -48,10 +54,14 @@ export function Cart() {
                   }}
                 />
               </label>
-              <button className="cart__remove" type="button" onClick={() => {
-                remove(item.id);
-                focusAddButton();
-              }}>
+              <button
+                className="cart__remove"
+                type="button"
+                onClick={() => {
+                  remove(item.id);
+                  focusAddButton();
+                }}
+              >
                 Remove {item.name}
               </button>
             </li>
@@ -61,12 +71,16 @@ export function Cart() {
 
       <p className="cart__total" data-testid="cart-total">Total: ${total}</p>
 
-      <button className="cart__clear" type="button" onClick={() => {
-        clear();
-        focusAddButton();
-      }}>
+      <button
+        className="cart__clear"
+        type="button"
+        onClick={() => {
+          clear();
+          focusAddButton();
+        }}
+      >
         Clear cart
       </button>
     </section>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useReducer } from 'react';
 import { CartAction, cartReducer, type CartState, initialCart, selectTotal } from './cartReducer';
 
 type CartContextType = {
-  state: CartState;
-  dispatch: React.ActionDispatch<[_action: CartAction]>;
+  state: CartState
+  dispatch: React.ActionDispatch<[_action: CartAction]>
 }
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -20,7 +20,7 @@ export interface CartApi {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialCart);
 
-  return <CartContext.Provider value={{state, dispatch}}>{children}</CartContext.Provider>
+  return <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>;
 }
 
 export function useCart(): CartApi {
@@ -31,10 +31,10 @@ export function useCart(): CartApi {
 
   return {
     state: context.state,
-    total: total,
-    add: (item) => context.dispatch({ type: 'add', item}),
+    total,
+    add: (item) => context.dispatch({ type: 'add', item }),
     remove: (id) => context.dispatch({ type: 'remove', id }),
     setQty: (id, qty) => context.dispatch({ type: 'setQty', id, qty }),
     clear: () => context.dispatch({ type: 'clear' }),
-  }
+  };
 }

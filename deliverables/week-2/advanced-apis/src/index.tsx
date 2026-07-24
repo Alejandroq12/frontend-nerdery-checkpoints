@@ -1,6 +1,6 @@
-import { CartProvider } from './CartContext'
-import { Cart } from './Cart'
-import './styles.css'
+import { CartProvider } from './CartContext';
+import { Cart } from './Cart';
+import './styles.css';
 
 export default function Demo() {
   return (
@@ -10,5 +10,5 @@ export default function Demo() {
         <Cart />
       </CartProvider>
     </main>
-  )
+  );
 }
