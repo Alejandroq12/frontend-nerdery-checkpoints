@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useCart } from './CartContext'
 
 // Sample products the demo can add to the cart. Integer prices keep the
@@ -9,14 +10,16 @@ const SAMPLE_PRODUCTS = [
 
 export function Cart() {
   const { state, total, add, remove, setQty, clear } = useCart()
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const focusAddButton = () => buttonRef.current?.focus();
 
   return (
     <section aria-label="Shopping cart">
       <h2>Cart</h2>
 
       <div>
-        {SAMPLE_PRODUCTS.map((product) => (
-          <button key={product.id} type="button" onClick={() => add(product)}>
+        {SAMPLE_PRODUCTS.map((product, index) => (
+          <button ref={index === 0 ? buttonRef : undefined} key={product.id} type="button" onClick={() => add(product)}>
             Add {product.name} (${product.price})
           </button>
         ))}
@@ -37,10 +40,19 @@ export function Cart() {
                   type="number"
                   min={0}
                   value={item.qty}
-                  onChange={(e) => setQty(item.id, Number(e.target.value))}
+                  onChange={(e) => {
+                    const nextQty = Number(e.target.value);
+                    setQty(item.id, nextQty);
+                    if (nextQty <= 0) {
+                      focusAddButton();
+                    }
+                  }}
                 />
               </label>
-              <button type="button" onClick={() => remove(item.id)}>
+              <button type="button" onClick={() => {
+                remove(item.id);
+                focusAddButton();
+              }}>
                 Remove {item.name}
               </button>
             </li>
@@ -50,7 +62,10 @@ export function Cart() {
 
       <p data-testid="cart-total">Total: ${total}</p>
 
-      <button type="button" onClick={clear}>
+      <button type="button" onClick={() => {
+        clear();
+        focusAddButton();
+      }}>
         Clear cart
       </button>
     </section>
