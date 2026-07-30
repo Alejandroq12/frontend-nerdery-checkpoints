@@ -1,11 +1,4 @@
-import { createContext, useState, type ReactNode } from 'react'
-
-// ---------------------------------------------------------------------------
-// STUB IMPLEMENTATION
-// Renders the sub-components flat with the correct roles so tests fail on the
-// behavioural assertions (one visible panel, aria-selected, switching) rather
-// than on import errors. Replace with the reference solution.
-// ---------------------------------------------------------------------------
+import { createContext, useContext, useState, type ReactNode } from 'react'
 
 interface TabsContextValue {
   value: string
@@ -14,15 +7,21 @@ interface TabsContextValue {
 
 const TabsContext = createContext<TabsContextValue | null>(null)
 
+function useTabsContext(): TabsContextValue {
+  const context = useContext(TabsContext)
+  if (context === null) throw new Error('useTabsContext must be used within <Tabs>. ' +
+                                        'Wrap Tabs.List / Tabs.Tab / Tabs.Panel in a <Tabs> element.')
+  return context
+}
+
 interface TabsProps {
   defaultValue: string
   children: ReactNode
 }
 
 function TabsRoot({ defaultValue, children }: TabsProps) {
-  const [value] = useState(defaultValue)
-  // STUB: activation is not wired up yet.
-  const setValue = (_next: string): void => {}
+  const [value, setValue] = useState(defaultValue)
+
   return (
     <TabsContext.Provider value={{ value, setValue }}>
       {children}
@@ -43,10 +42,13 @@ interface TabProps {
   children: ReactNode
 }
 
-function Tab({ value: _value, children }: TabProps) {
-  // STUB: never selected, click does nothing.
+function Tab({ value, children }: TabProps) {
+  const { value: currentValue, setValue } = useTabsContext()
+  const handleClick = () => setValue(value)
+  const activeTab = currentValue === value
+
   return (
-    <button type="button" role="tab" aria-selected={false}>
+    <button type="button" role="tab" aria-selected={activeTab} onClick={handleClick}>
       {children}
     </button>
   )
@@ -57,9 +59,10 @@ interface TabsPanelProps {
   children: ReactNode
 }
 
-function TabsPanel({ value: _value, children }: TabsPanelProps) {
-  // STUB: every panel is always rendered.
-  return <div role="tabpanel">{children}</div>
+function TabsPanel({ value, children }: TabsPanelProps) {
+  const { value: currentValue } = useTabsContext()
+  if (currentValue === value) return <div role="tabpanel">{children}</div>
+  return null
 }
 
 export const Tabs = Object.assign(TabsRoot, {
@@ -67,3 +70,4 @@ export const Tabs = Object.assign(TabsRoot, {
   Tab,
   Panel: TabsPanel,
 })
+
