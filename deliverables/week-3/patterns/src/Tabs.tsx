@@ -31,24 +31,36 @@ function TabsRoot({ defaultValue, children }: TabsProps) {
 
 interface TabsListProps {
   children: ReactNode
+  className?: string
 }
 
-function TabsList({ children }: TabsListProps) {
-  return <div role="tablist">{children}</div>
+function TabsList({ children, className }: TabsListProps) {
+  return (
+    <div role="tablist" className={className}>
+      {children}
+    </div>
+  )
 }
 
 interface TabProps {
   value: string
   children: ReactNode
+  className?: string
 }
 
-function Tab({ value, children }: TabProps) {
+function Tab({ value, children, className }: TabProps) {
   const { value: currentValue, setValue } = useTabsContext()
   const handleClick = () => setValue(value)
   const activeTab = currentValue === value
 
   return (
-    <button type="button" role="tab" aria-selected={activeTab} onClick={handleClick}>
+    <button
+      type="button"
+      role="tab"
+      aria-selected={activeTab}
+      onClick={handleClick}
+      className={className}
+    >
       {children}
     </button>
   )
@@ -57,11 +69,18 @@ function Tab({ value, children }: TabProps) {
 interface TabsPanelProps {
   value: string
   children: ReactNode
+  className?: string
 }
 
-function TabsPanel({ value, children }: TabsPanelProps) {
+function TabsPanel({ value, children, className }: TabsPanelProps) {
   const { value: currentValue } = useTabsContext()
-  if (currentValue === value) return <div role="tabpanel">{children}</div>
+  if (currentValue === value) {
+    return (
+      <div role="tabpanel" className={className}>
+        {children}
+      </div>
+    )
+  }
   return null
 }
 
