@@ -1,5 +1,6 @@
 import { fetchUsers, User } from "./api"
 import { Component, Suspense, use, useState, type ErrorInfo, type ReactNode } from "react"
+import styles from "./UsersView.module.css"
 
 interface Props {
   children: ReactNode
@@ -45,13 +46,13 @@ function Users(): ReactNode {
   const users = use(getUsers())
 
   return (
-    <>
+    <ul className={styles.list}>
       {users.map(user => {
-        return <div key={user.id}>
-                 <p>{user.name}</p>
-                </div>
+        return <li className={styles.item} key={user.id}>
+                 <p className={styles.name}>{user.name}</p>
+                </li>
       })}
-    </>
+    </ul>
   )
 }
 
@@ -63,15 +64,17 @@ export function UsersView() {
     cached = null
   }
 
-  const fallback = (<div role="alert">
-                      <p>Something went wrong</p>
-                      <button onClick={handleClick}>Try again</button>
+  const fallback = (<div className={styles.alert} role="alert">
+                      <p className={styles.alertText}>Something went wrong</p>
+                      <button className={styles.retry} onClick={handleClick}>Try again</button>
                    </div>)
   return (
-    <ErrorBoundary key={attempt} fallback={fallback}>
-      <Suspense fallback={<p>Loading…</p>}>
-        <Users/>
-      </Suspense>
-    </ErrorBoundary>
+    <div className={styles.view}>
+      <ErrorBoundary key={attempt} fallback={fallback}>
+        <Suspense fallback={<p className={styles.loading}>Loading…</p>}>
+          <Users/>
+        </Suspense>
+      </ErrorBoundary>
+    </div>
   )
 }
