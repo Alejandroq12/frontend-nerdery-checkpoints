@@ -1,6 +1,7 @@
 import { fetchUsers, User } from "./api"
 import { Component, Suspense, use, useState, type ErrorInfo, type ReactNode } from "react"
 import styles from "./UsersView.module.css"
+import { createResource, type Resource } from "./resource"
 
 interface Props {
   children: ReactNode
@@ -34,16 +35,10 @@ class ErrorBoundary extends Component<Props, ErrorBoundaryState> {
   }
 }
 
-let cached: Promise<User[]> | null = null
-
-function getUsers(): Promise<User[]> {
-  if (cached === null) cached = fetchUsers()
-  return cached
-}
-
+const usersResource: Resource<User[]> = createResource(() => fetchUsers())
 
 function Users(): ReactNode {
-  const users = use(getUsers())
+  const users = use(usersResource.read())
 
   return (
     <ul className={styles.list}>
@@ -61,7 +56,7 @@ export function UsersView() {
 
   function handleClick() {
     setAttempt(prevValue => prevValue + 1)
-    cached = null
+    usersResource.invalidate()
   }
 
   const fallback = (<div className={styles.alert} role="alert">
